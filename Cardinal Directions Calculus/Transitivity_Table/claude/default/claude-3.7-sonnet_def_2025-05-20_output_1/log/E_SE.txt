@@ -1,0 +1,522 @@
+PROMPT: If region x is E of region y and region y is SE of region z, then which could be the possible relations between region x and region z?
+
+THINKING:
+
+We have the following information:
+- Region x is E (East) of region y
+- Region y is SE (Southeast) of region z
+
+We need to find the possible cardinal direction relations between region x and region z.
+
+Let's use the definitions provided:
+
+For x E y (x is East of y):
+- supx(y) <= infx(x)
+- infy(y) <= infy(x)
+- supy(x) <= supy(y)
+
+For y SE z (y is Southeast of z):
+- supx(z) <= infx(y)
+- supy(y) <= infy(z)
+
+Now, I'll try to determine the possible cardinal direction relations between x and z by analyzing the constraints.
+
+From x E y:
+1. supx(y) <= infx(x)
+2. infy(y) <= infy(x)
+3. supy(x) <= supy(y)
+
+From y SE z:
+4. supx(z) <= infx(y)
+5. supy(y) <= infy(z)
+
+Let's see if we can derive constraints between x and z:
+
+From 1 and 4, we get:
+supx(z) <= infx(y) <= supx(y) <= infx(x)
+Therefore: supx(z) <= infx(x)
+This means that x is either E, NE, or SE of z.
+
+From 5 and 3, we get:
+supy(x) <= supy(y) <= infy(z)
+Therefore: supy(x) <= infy(z)
+This means that x is either S, SW, or SE of z.
+
+Combining the constraints, we know that x is to the east (horizontally) and to the south (vertically) of z. The only cardinal direction that satisfies both constraints is SE.
+
+Actually, let me double-check this reasoning by drawing a diagram to visualize the relationships more clearly.
+
+Consider a coordinate system. Let's place z at the origin (0, 0). 
+
+Given y is SE of z, y must be in the region where x > 0 and y < 0. Let's say y is at coordinates (2, -2).
+
+Given x is E of y, x must be in the region where x > 2, -2 < y < 2. Let's say x is at (4, -1).
+
+Now, where is x in relation to z? x is at (4, -1) and z is at (0, 0). So x is to the east and south of z, which is the SE direction.
+
+But wait, I think I made an error in my reasoning. Let me reconsider.
+
+If y is SE of z, then:
+- supx(z) <= infx(y) (y is to the east of z)
+- supy(y) <= infy(z) (y is to the south of z)
+
+If x is E of y, then:
+- supx(y) <= infx(x) (x is to the east of y)
+- infy(y) <= infy(x) (x's lower y bound is higher than or equal to y's lower y bound)
+- supy(x) <= supy(y) (x's upper y bound is lower than or equal to y's upper y bound)
+
+From these, I can derive:
+- supx(z) <= infx(y) <= supx(y) <= infx(x), which gives supx(z) <= infx(x), meaning x is to the east of z.
+- For the y-axis, I know that supy(y) <= infy(z) and infy(y) <= infy(x) and supy(x) <= supy(y).
+
+From supy(y) <= infy(z) and supy(x) <= supy(y), I get supy(x) <= infy(z), which means x is to the south of z.
+
+So, it does seem like x is SE of z, but let me check other possible relations too.
+
+In general, for x to be in any cardinal direction with respect to z, we need to compare the x and y projections of the two regions. Based on the constraints I've derived, x is to the east of z (on the x-axis) and to the south of z (on the y-axis). This is consistent with the SE cardinal direction.
+
+Actually, we need to be a bit more careful. Let me draw this out in a clearer way.
+
+Let's place z at the origin (0, 0) with dimensions 2x2, so its bounding box is from (-1, -1) to (1, 1).
+
+If y is SE of z, then y's coordinates must satisfy supx(z) <= infx(y) and supy(y) <= infy(z). Given z's bounding box, this means infx(y) > 1 and supy(y) < -1. Let's place y at (2, -2) with dimensions 1x1, so its bounding box is from (2, -2) to (3, -3).
+
+Now, if x is E of y, then x's coordinates must satisfy supx(y) <= infx(x), infy(y) <= infy(x), and supy(x) <= supy(y). Given y's bounding box, this means infx(x) > 3, infy(x) >= -3, and supy(x) <= -2. Let's place x at (4, -2.5) with dimensions 1x1, so its bounding box is from (4, -2.5) to (5, -1.5).
+
+Comparing x's bounding box to z's bounding box:
+- On the x-axis: infx(x) = 4 > 1 = supx(z), so x is to the east of z.
+- On the y-axis: supy(x) = -1.5 < -1 = infy(z), so x is to the south of z.
+
+So, according to the bounding boxes, x is SE of z.
+
+Hmm, that's not correct. Let me redo this calculation.
+
+Let's place z at the origin (0, 0) with dimensions 2x2, so its bounding box is from (-1, -1) to (1, 1).
+
+If y is SE of z, then y's coordinates must satisfy supx(z) <= infx(y) and supy(y) <= infy(z). Given z's bounding box, this means infx(y) > 1 and supy(y) < -1. Let's place y at (2, -2) with dimensions 1x1, so its bounding box is from (2, -2) to (3, -3).
+
+Actually, I think I made an error in describing the bounding box of y. If y's coordinates are (2, -2) with dimensions 1x1, then its bounding box should be from (1.5, -2.5) to (2.5, -1.5).
+
+OK, let me retry this. 
+
+Let's place z at the origin (0, 0) with dimensions 2x2, so its bounding box is from (-1, -1) to (1, 1).
+
+If y is SE of z, then y's coordinates must satisfy supx(z) <= infx(y) and supy(y) <= infy(z). Given z's bounding box, this means infx(y) > 1 and supy(y) < -1. Let's place y's bounding box from (2, -3) to (3, -2).
+
+Now, if x is E of y, then x's coordinates must satisfy supx(y) <= infx(x), infy(y) <= infy(x), and supy(x) <= supy(y). Given y's bounding box, this means infx(x) > 3, infy(x) >= -3, and supy(x) <= -2. Let's place x's bounding box from (4, -3) to (5, -2).
+
+Comparing x's bounding box to z's bounding box:
+- On the x-axis: infx(x) = 4 > 1 = supx(z), so x is to the east of z.
+- On the y-axis: supy(x) = -2 > -1 = infy(z), but infy(x) = -3 < -1 = infy(z), so x overlaps with z on the y-axis, but extends below it.
+
+Wait, in the y-axis, this isn't what I want. I made another error. 
+
+Let me go back to the initial constraints.
+
+For y SE z:
+- supx(z) <= infx(y) (y is to the east of z)
+- supy(y) <= infy(z) (y is to the south of z)
+
+Given z's bounding box from (-1, -1) to (1, 1):
+- supx(z) = 1, so infx(y) > 1
+- infy(z) = -1, so supy(y) < -1
+
+So, let's place y's bounding box from (2, -4) to (3, -2). This ensures y is SE of z.
+
+For x E y:
+- supx(y) <= infx(x) (x is to the east of y)
+- infy(y) <= infy(x) (x's lower y bound is higher than or equal to y's lower y bound)
+- supy(x) <= supy(y) (x's upper y bound is lower than or equal to y's upper y bound)
+
+Given y's bounding box from (2, -4) to (3, -2):
+- supx(y) = 3, so infx(x) > 3
+- infy(y) = -4, so infy(x) >= -4
+- supy(y) = -2, so supy(x) <= -2
+
+Let's place x's bounding box from (4, -3) to (5, -2.5). This ensures x is E of y.
+
+Now, comparing x's bounding box to z's bounding box:
+- On the x-axis: infx(x) = 4 > 1 = supx(z), so x is to the east of z.
+- On the y-axis: supy(x) = -2.5 < -1 = infy(z), so x is to the south of z.
+
+So, x is SE of z.
+
+But wait, I need to account for other potential positions of x, not just the specific example I've chosen. Let's consider other possible positions for x that still satisfy the E relation with y.
+
+According to the constraints:
+- infx(x) > 3 (east of y)
+- infy(x) >= -4 (y-bound constraint)
+- supy(x) <= -2 (y-bound constraint)
+
+If we move x upwards while keeping its eastern position relative to y, then infy(x) will increase, which is still consistent with the constraint infy(x) >= -4. Similarly, supy(x) will increase, but as long as supy(x) <= -2, x will still be E of y.
+
+What's the maximum upward position for x? We have the constraint supy(x) <= -2. So the highest upper bound for x is supy(x) = -2.
+
+At the extreme, if we place x's bounding box from (4, -2-e) to (5, -2), for a very small positive number e, then supy(x) = -2, which satisfies the constraint supy(x) <= -2 for x E y.
+
+Comparing this extreme position of x with z:
+- On the x-axis: infx(x) = 4 > 1 = supx(z), so x is to the east of z.
+- On the y-axis: supy(x) = -2 < -1 = infy(z), so x is to the south of z.
+
+So, even at the extreme, x is SE of z.
+
+Wait, there's something off with my calculations. Let me rethink.
+
+Let me be clearer in my bounds.
+
+If z's bounding box is from (-1, -1) to (1, 1):
+- infx(z) = -1, supx(z) = 1
+- infy(z) = -1, supy(z) = 1
+
+For y to be SE of z:
+- supx(z) <= infx(y) (y is to the east of z)
+- supy(y) <= infy(z) (y is to the south of z)
+
+Given z's bounding box, this means:
+- infx(y) > 1 (east of z)
+- supy(y) < -1 (south of z)
+
+So let's place y's bounding box from (2, -4) to (3, -2). This gives:
+- infx(y) = 2, supx(y) = 3
+- infy(y) = -4, supy(y) = -2
+
+For x to be E of y:
+- supx(y) <= infx(x) (x is to the east of y)
+- infy(y) <= infy(x) (x's lower y bound is higher than or equal to y's lower y bound)
+- supy(x) <= supy(y) (x's upper y bound is lower than or equal to y's upper y bound)
+
+Given y's bounding box, this means:
+- infx(x) > 3 (east of y)
+- infy(x) >= -4 (y-bound constraint)
+- supy(x) <= -2 (y-bound constraint)
+
+Let's consider the possible bounding boxes for x that satisfy these constraints, and check their relation to z. Wait, I'm overcomplicating this.
+
+From the constraints I've derived:
+- For x to be related to z by any cardinal direction relation, the key is the comparison of the x and y bounds of the two regions.
+- I've established that infx(x) > 1 (because infx(x) > 3 > 1), which means x is to the east of z.
+- For the south-north axis, I have -4 <= infy(x) and supy(x) <= -2 (for x to be E of y). Also, infy(z) = -1 and supy(z) = 1.
+
+Comparing:
+- If supy(x) <= -1 (which is true, since supy(x) <= -2 < -1), then x is to the south of z.
+- Since x is to the east of z (on the x-axis) and to the south of z (on the y-axis), x is SE of z.
+
+However, I'm still not properly accounting for all possibilities. Let's try a different approach.
+
+I know y is SE of z, which means y is to the east and south of z. Let me place y and z on a coordinate system. I'll denote the bounding boxes as [infx, supy, supx, supy].
+
+Let's simplify and place:
+- z at [0, 0, 2, 2]
+- y at [3, -2, 4, -1]
+
+For y to be SE of z, I need:
+- supx(z) <= infx(y) (which is true, since 2 < 3)
+- supy(y) <= infy(z) (which is true, since -1 < 0)
+
+Now, for x to be E of y, I need:
+- supx(y) <= infx(x) (x is to the east of y)
+- infy(y) <= infy(x) (x's lower y bound is higher than or equal to y's lower y bound)
+- supy(x) <= supy(y) (x's upper y bound is lower than or equal to y's upper y bound)
+
+So, if y is at [3, -2, 4, -1], then x should be at [x1, y1, x2, y2] where:
+- x1 > 4 (x is to the east of y)
+- y1 >= -2 (y-bound constraint)
+- y2 <= -1 (y-bound constraint)
+
+For example, x could be at [5, -2, 6, -1.5].
+
+Now, to determine the relation between x and z:
+- For a region to be SE of another, the "inf_x" coordinate of the first region should be greater than the "sup_x" coordinate of the second region (east), and the "sup_y" coordinate of the first region should be less than the "inf_y" coordinate of the second region (south).
+- So, for x to be SE of z, I need: infx(x) > supx(z) (which is true, since 5 > 2) and supy(x) < infy(z) (which is true, since -1.5 < 0).
+
+But what if x is at [5, -1.8, 6, -0.5]?
+- infx(x) > supx(z) (5 > 2, still true)
+- supy(x) < infy(z) (-0.5 < 0, still true)
+So, x is still SE of z.
+
+What if x is at [5, -0.8, 6, 0.5]?
+- infx(x) > supx(z) (5 > 2, still true)
+- supy(x) < infy(z) (0.5 > 0, not true)
+But wait, infy(x) < infy(z) (-0.8 < 0, true), so x's y-projection overlaps with z's y-projection. This means the relation is no longer SE, but E.
+
+OK, I'm handling this calculation wrong. Let's go back to the definition I was provided with.
+
+For a E b, I need:
+- supx(b) <= infx(a) (a is to the east of b)
+- infy(b) <= infy(a) (overlapping in y-axis)
+- supy(a) <= supy(b) (overlapping in y-axis)
+
+For a SE b, I need:
+- supx(b) <= infx(a) (a is to the east of b)
+- supy(a) <= infy(b) (a is to the south of b)
+
+Now, for the problem at hand:
+- Region x is E of region y
+- Region y is SE of region z
+
+Let's place:
+- z at [0, 0, 2, 2] (coordinates of the bounding box: [infx, infy, supx, supy])
+- y at [3, -2, 4, -1] (ensuring y is SE of z)
+
+For y to be SE of z, I check:
+- supx(z) <= infx(y) (which is true, since 2 < 3)
+- supy(y) <= infy(z) (which is true, since -1 < 0)
+
+Now, for x to be E of y, I need:
+- supx(y) <= infx(x) (x is to the east of y)
+- infy(y) <= infy(x) (E relation on y-axis)
+- supy(x) <= supy(y) (E relation on y-axis)
+
+So, if y is at [3, -2, 4, -1], then x should be at [x1, y1, x2, y2] where:
+- x1 > 4 (x is to the east of y)
+- y1 >= -2 (E relation on y-axis)
+- y2 <= -1 (E relation on y-axis)
+
+Let's say x is at [5, -2, 6, -1.5]. I can verify that x is E of y.
+
+Now, to determine the relation between x and z, I'll compare the bounding boxes:
+- For a E b, I need:
+  - supx(b) <= infx(a) (a is to the east of b)
+  - infy(b) <= infy(a) (overlapping in y-axis)
+  - supy(a) <= supy(b) (overlapping in y-axis)
+
+Checking if x is E of z:
+- supx(z) <= infx(x) (which is true, since 2 < 5)
+- infy(z) <= infy(x) (which is not true, since 0 > -2)
+- supy(x) <= supy(z) (which is true, since -1.5 < 2)
+
+Wait, hold on. The definition of E is:
+a E b if and only if supx(b) <= infx(a), infy(b) <= infy(a) and supy(a) <= supy(b).
+
+For x E z, I need:
+- supx(z) <= infx(x) (which is true, since 2 < 5)
+- infy(z) <= infy(x) (which is not true, since 0 > -2)
+- supy(x) <= supy(z) (which is true, since -1.5 < 2)
+
+Since infy(z) <= infy(x) is not satisfied, x is not E of z.
+
+For x SE z, I need:
+- supx(z) <= infx(x) (which is true, since 2 < 5)
+- supy(x) <= infy(z) (which is true, since -1.5 < 0)
+
+So, x is SE of z.
+
+Let's try another possible position for x. Let's say x is at [5, 0.5, 6, 1.5]:
+- supx(y) <= infx(x) (4 < 5, true)
+- infy(y) <= infy(x) (-2 < 0.5, true)
+- supy(x) <= supy(y) (1.5 > -1, not true)
+
+But that doesn't satisfy the condition for x E y. So, this is not a valid position for x.
+
+Let's say x is at [5, -1.5, 6, -1]:
+- supx(y) <= infx(x) (4 < 5, true)
+- infy(y) <= infy(x) (-2 < -1.5, true)
+- supy(x) <= supy(y) (-1 <= -1, true)
+
+So, x is E of y.
+
+Checking if x is E of z:
+- supx(z) <= infx(x) (2 < 5, true)
+- infy(z) <= infy(x) (0 > -1.5, not true)
+- supy(x) <= supy(z) (-1 < 2, true)
+
+Checking if x is SE of z:
+- supx(z) <= infx(x) (2 < 5, true)
+- supy(x) <= infy(z) (-1 < 0, true)
+
+So, x is SE of z for this position as well.
+
+OK, I think I'm still getting confused with the definition of the cardinal direction relations. Let me make sure I'm using the definitions correctly.
+
+For a E b, I need:
+- supx(b) <= infx(a) (a is to the east of b)
+- infy(b) <= infy(a) (a's lower y bound is higher than or equal to b's lower y bound)
+- supy(a) <= supy(b) (a's upper y bound is lower than or equal to b's upper y bound)
+
+For a SE b, I need:
+- supx(b) <= infx(a) (a is to the east of b)
+- supy(a) <= infy(b) (a is to the south of b)
+
+Now, let's go back to our problem. The conditions provided are:
+1. x E y
+2. y SE z
+
+Let me check the possible positions of x given these constraints and determine the relation between x and z.
+
+For y SE z, we have:
+- supx(z) <= infx(y)
+- supy(y) <= infy(z)
+
+For x E y, we have:
+- supx(y) <= infx(x)
+- infy(y) <= infy(x)
+- supy(x) <= supy(y)
+
+Let's derive the relation between x and z. From the above, we can get:
+- supx(z) <= infx(y) (since y is SE of z) and supx(y) <= infx(x) (since x is E of y). This gives supx(z) <= infx(x). So x is to the east of z.
+- supy(y) <= infy(z) (since y is SE of z) and supy(x) <= supy(y) (since x is E of y). This gives supy(x) <= infy(z). So x is to the south of z.
+
+Since x is to the east of z (horizontally) and to the south of z (vertically), x is SE of z. So that's one possible relation between x and z.
+
+Let me see if there are other possible relations:
+
+1. Is x E of z?
+For x E z, we need:
+- supx(z) <= infx(x) (which, as established above, is true)
+- infy(z) <= infy(x) (lower y-bound overlap)
+- supy(x) <= supy(z) (upper y-bound overlap)
+
+From the constraints, we have supy(x) <= supy(y) <= infy(z). This means supy(x) <= infy(z), which contradicts the requirement supy(x) <= supy(z) (and overlapping on the y-axis) for x E z.
+
+In fact, since supy(x) <= infy(z), x is below z, which means x cannot be in the east, west, or the bounding box of z. It can only be in the south, southwest, southeast, or a multi-tile relation combining these.
+
+2. Is x SE of z?
+For x SE z, we need:
+- supx(z) <= infx(x) (which, as established above, is true)
+- supy(x) <= infy(z) (which, as established above, is true)
+
+So, x is SE of z.
+
+3. Is x S of z?
+For x S z, we need:
+- supy(x) <= infy(z) (which, as established above, is true)
+- infx(z) <= infx(x) (x's left bound is to the right of z's left bound)
+- supx(x) <= supx(z) (x's right bound is to the left of z's right bound)
+
+Since supx(z) <= infx(y) <= supx(y) <= infx(x), we have supx(z) <= infx(x). This is not consistent with x being within z's x-range, so x is not S of z.
+
+4. Is x SW of z?
+For x SW z, we need:
+- supx(x) <= infx(z) (x is to the west of z)
+- supy(x) <= infy(z) (x is to the south of z)
+
+Since supx(z) <= infx(y) <= supx(y) <= infx(x), we have supx(z) <= infx(x). This is not consistent with x being to the west of z.
+
+5. x B z?
+For x B z, we need infx(z) <= infx(x), supx(x) <= supx(z), infy(z) <= infy(x), and supy(x) <= supy(z).
+But our constraints show that at least infx(x) > supx(z), which means x B z is not possible.
+
+6. x N z, x NE z, x NW z? 
+For these directions, x must be above z. And we have already seen that our constraints ensure that x is below z. Hence these are not possible.
+
+7. x W z?
+For x W z, we need supx(x) <= infx(z). But our constraints suggest infx(x) > supx(z), which means that x W z is not possible.
+
+I believe the only valid relation between x and z is x SE z.
+
+But let me double-check by actually drawing a diagram and verifying the relations.
+
+Start with a coordinate system. Place:
+- z at [0, 0, 2, 2] (bounding box)
+- y needs to be SE of z. So, y at [3, -3, 4, -1].
+
+For y SE z, I check:
+- supx(z) <= infx(y) (2 < 3, true)
+- supy(y) <= infy(z) (-1 < 0, true)
+
+For x E y, x should be at [x1, y1, x2, y2] with:
+- supx(y) <= infx(x) (4 < x1)
+- infy(y) <= infy(x) (-3 <= y1)
+- supy(x) <= supy(y) (y2 <= -1)
+
+So, x can be at positions like [5, -2, 6, -1.5] or [5, 0, 6, -1], ... as long as the constraints are satisfied.
+
+Checking the relation between x and z for x at [5, -2, 6, -1.5]:
+- x is to the east of z since infx(x) > supx(z) (5 > 2)
+- x is to the south of z since supy(x) < infy(z) (-1.5 < 0)
+So, x is SE of z.
+
+Actually, I'm overcomplicating this. From the constraints, we have established that x is to the east of z (i.e., infx(x) > supx(z)) and x is to the south of z (i.e., supy(x) < infy(z)). This means x is southeast (SE) of z.
+
+OK, but let me double-check that, from the constraints I have:
+1. x E y
+2. y SE z
+
+I want to ensure that I covered all possible positions for x.
+
+For x E y, the key constraints are:
+- supx(y) <= infx(x)
+- infy(y) <= infy(x)
+- supy(x) <= supy(y)
+
+These constraints limit the position of x relative to y. But given the variety of valid positions for x, can x have a relation with z other than SE?
+
+From the constraints:
+- supx(z) <= infx(y) <= supx(y) <= infx(x). This ensures x is to the east of z, not to the west, nor overlapping with z on the x-axis.
+- supy(x) <= supy(y) <= infy(z). This ensures x is to the south of z, not to the north, nor overlapping with z on the y-axis.
+
+Given these, x is unequivocally SE of z.
+
+Actually, let me rethink.
+
+Region y is to the Southeast of z. This means `supy(y) ≤ infy(z)` (y is below z) and `supx(z) ≤ infx(y)` (y is to the right of z).
+
+Region x is to the East of y. This means `supx(y) ≤ infx(x)` (x is to the right of y), `infy(y) ≤ infy(x)` (x's bottom is not below y's bottom), and `supy(x) ≤ supy(y)` (x's top is not above y's top).
+
+Given the above, let's determine the possible relations between x and z.
+
+1. First, we know `supx(z) ≤ infx(y)` and `supx(y) ≤ infx(x)`, which gives `supx(z) ≤ infx(x)`. So, x is to the right of z.
+
+2. We also know `supy(y) ≤ infy(z)` and `supy(x) ≤ supy(y)`, which gives `supy(x) ≤ infy(z)`. So, x is below z.
+
+For cardinal direction relations, if x's bounding box is to the Southeast of z's bounding box, then x is SE of z. So, the relation between x and z is x SE z.
+
+Actually, let me carefully trace this through one last time. We know:
+- x E y
+- y SE z
+
+We need to find the relation between x and z.
+
+I start from the definition of the E relation. x E y if:
+- Region x is to the east of region y: This is captured by the constraint "supx(y) <= infx(x)".
+- Regions x and y overlap on the y-axis: This is captured by the constraints "infy(y) <= infy(x)" and "supy(x) <= supy(y)".
+
+For y SE z, we have:
+- Region y is to the southeast of region z: This is captured by the constraints "supx(z) <= infx(y)" (y is to the east of z) and "supy(y) <= infy(z)" (y is to the south of z).
+
+From these, we can deduce:
+- From "supx(y) <= infx(x)" and "supx(z) <= infx(y)", we get "supx(z) <= infx(x)". This means x is to the east of z.
+- From "supy(x) <= supy(y)" and "supy(y) <= infy(z)", we get "supy(x) <= infy(z)". This means x is to the south of z.
+
+Since x is to the east of z and to the south of z, the cardinal direction relation between them is SE. So, x is SE of z.
+
+but I think I should also check if x can have multi-tile cardinal direction relations with z. 
+
+But given the constraint, it's clear that x is entirely to the east of z and entirely to the south of z, which places it in the SE single-tile cardinal direction. There's no way for x to span multiple tiles relative to z.
+
+Ah, I think I over complicated this. I'll answer the question now.
+
+The relation is Southeast (SE). This means that region x is to the southeast of region z.
+
+ANSWER:
+
+Based on the given information, I need to determine possible cardinal direction relations between region x and region z.
+
+Given:
+- Region x is E (East) of region y
+- Region y is SE (Southeast) of region z
+
+Let me analyze what this means:
+
+For x E y:
+- supx(y) ≤ infx(x) (x is to the east of y)
+- infy(y) ≤ infy(x) (overlap constraint on y-axis)
+- supy(x) ≤ supy(y) (overlap constraint on y-axis)
+
+For y SE z:
+- supx(z) ≤ infx(y) (y is to the east of z)
+- supy(y) ≤ infy(z) (y is to the south of z)
+
+Combining these constraints:
+- From supx(z) ≤ infx(y) and supx(y) ≤ infx(x), we get: supx(z) ≤ infx(x)
+  This means x is to the east of z.
+- From supy(y) ≤ infy(z) and supy(x) ≤ supy(y), we get: supy(x) ≤ infy(z)
+  This means x is to the south of z.
+
+When a region is both to the east and south of another region, it is in the SE direction.
+
+Therefore, the only possible relation between region x and region z is SE.
+
+
+ELAPSED TIME: 107.83 seconds
+OUTPUT TOKENS: 8670

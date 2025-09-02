@@ -1,0 +1,328 @@
+For r1: N, r2: N, answer: N.
+For r1: N, r2: W, answer: W and NW are both possible.  
+
+Explanation (sketch):  
+• From “x N y,” one deduces that x’s bounding box lies strictly above y’s bounding box yet is horizontally contained within y.  
+• From “y W z,” one deduces that y’s bounding box lies strictly to the left of z’s bounding box yet is vertically contained within z.  
+• Putting these together forces x also to lie to the left of z (since supx(x) ≤ supx(y) ≤ infx(z)).  
+• Vertically, x may either sit entirely within z’s vertical extent (making x W z) or lie strictly above z (making x NW z).  
+• Other cardinal relations are ruled out by the requisite bounding‐box inequalities.
+For r1: N, r2: E, answer: N, NE, E
+For r1: N, r2: S, answer: N, B, and S are all consistent possibilities.  In short:
+
+• N of z can happen if x is placed entirely above z (so supy(z) ≤ infy(x)),  
+• B of z can happen if x’s bounding box is contained in z’s (so infy(z) ≤ infy(x) and supy(x) ≤ supy(z)),  
+• S of z can happen if x is placed entirely below z (so supy(x) ≤ infy(z)).
+For r1: N, r2: NW, answer: NW
+For r1: N, r2: SW, answer: x being N of y forces x to lie strictly above y in the vertical direction but still (horizontally) within y’s bounding box.  
+y being SW of z forces y to lie strictly below and to the left of z in both coordinates.  
+
+From y SW z one gets supx(y) ≤ infx(z).  
+But since x N y also implies supx(x) ≤ supx(y), chaining these gives supx(x) ≤ supx(y) ≤ infx(z).  
+
+Hence, x must lie entirely to the left of (or just touching) z in the x-coordinate.  In the y‑coordinate, however, no direct constraint emerges between x and z: x could be above, below, or vertically overlapping with z’s bounding box.  
+
+By the definitions of the single-tile relations, for one region a to be strictly to the left of another region b, we need supx(a) ≤ infx(b); then whether a is above, below, or overlapping vertically with b decides whether the relation is NW, SW, or W.  
+
+Therefore, given that x is “to the left” of z and we do not know their precise vertical stacking, the only possible single-tile cardinal relations between x and z are NW, W, or SW.
+For r1: N, r2: SE, answer: x must lie strictly to the right of z (since from “y is SE of z” we get supx(z) ≤ infx(y), and from “x is N of y” we have infx(y) ≤ infx(x), so supx(z) ≤ infx(x)).  However, nothing in the given constraints fixes whether x is above, below, or overlapping z vertically.  Consequently, the only consistent single‐tile relations of x to z are E, NE, or SE.
+For r1: N, r2: NE, answer: NE
+For r1: N, r2: B, answer: N or B.
+For r1: W, r2: N, answer: Narrowing down from the definitions, we know first that x W y implies:
+
+• supₓ(x) ≤ infₓ(y)  (x is strictly to the left of y),  
+• infᵧ(y) ≤ infᵧ(x) and supᵧ(x) ≤ supᵧ(y)  (x is vertically contained within y).
+
+Next, y N z implies:
+
+• supᵧ(z) ≤ infᵧ(y)  (z is strictly below y),  
+• infₓ(z) ≤ infₓ(y) and supₓ(y) ≤ supₓ(z)  (y is horizontally contained within z).
+
+Putting these together:
+
+• Since supᵧ(z) ≤ infᵧ(y) and infᵧ(y) ≤ infᵧ(x), it follows that supᵧ(z) ≤ infᵧ(x).  
+  In other words, z is strictly below x (there is no vertical overlap).  
+• Horizontally, we only know x is to the left of y and y is inside z; this does not fix x’s horizontal position relative to z.  
+  – If supₓ(x) still lies to the left of infₓ(z), then x is “NW” of z.  
+  – If instead infₓ(z) ≤ infₓ(x) and supₓ(x) ≤ supₓ(z), then x is “N” of z.  
+
+No other single‐tile relations (S, SE, E, NE, W, SW, B) can hold consistently with “x W y” and “y N z” under the given definitions.  Consequently, the possible relations between x and z are:
+
+• N  
+• NW  
+For r1: W, r2: W, answer: W
+For r1: W, r2: E, answer: W of y tells us that x sits strictly to the left of y (no horizontal overlap) but is vertically contained in y.  
+E of z tells us that y sits strictly to the right of z (again, no horizontal overlap) but is vertically contained in z.  
+
+Putting these together forces x to be vertically contained in z as well (because x is contained in y and y is contained in z, so x is contained in z vertically).  However, there is no forced left‐right ordering between x and z: x could be still further left than z, or further right than z, or even be horizontally contained in z.  
+
+Hence the only single‐tile cardinal relations x can bear to z (which require either no horizontal overlap or complete containment, and no vertical separation) are:
+
+• W  (x strictly to the left of z),  
+• E  (x strictly to the right of z),  
+• B  (x is contained in z’s bounding box).
+
+All other single‐tile relations (N, S, NE, SE, NW, SW) require a vertical separation that is impossible here, so they cannot arise.
+For r1: W, r2: S, answer: Solely from “x W y” one deduces that x is strictly to the left of y (supₓ(x) ≤ infₓ(y)) and vertically contained in y’s bounding box (infᵧ(y) ≤ infᵧ(x) and supᵧ(x) ≤ supᵧ(y)).  
+From “y S z” one deduces y is strictly below z (supᵧ(y) ≤ infᵧ(z)) and horizontally contained in z’s bounding box (infₓ(z) ≤ infₓ(y) and supₓ(y) ≤ supₓ(z)).  
+
+Putting these together forces  
+• supᵧ(x) ≤ supᵧ(y) ≤ infᵧ(z),  
+so x also lies entirely below z in the vertical direction.  
+
+Once x is below z, the only ways x can relate to z in the nine‐direction scheme are “S” (if x’s bounding box lies horizontally within z’s) or “SW” (if x is both left and below).  Indeed:
+
+• x S z happens exactly when  
+  – supᵧ(x) ≤ infᵧ(z),  
+  – infₓ(z) ≤ infₓ(x) and supₓ(x) ≤ supₓ(z).  
+
+• x SW z happens exactly when  
+  – supₓ(x) ≤ infₓ(z),  
+  – supᵧ(x) ≤ infᵧ(z).  
+
+Both can be realized by appropriate placements of the three regions (one can construct explicit examples for each).  No other cardinal‐direction relation for x with respect to z is consistent with “x W y” and “y S z.”  
+
+Therefore, the possible relations between x and z are: S, SW.
+For r1: W, r2: NW, answer: NW
+For r1: W, r2: SW, answer: SW
+For r1: W, r2: SE, answer: Satisfying “x W y” forces x to lie strictly to the left of y (and vertically contained in y), while “y SE z” forces y to lie strictly to the right and below z.  From this, x must also lie strictly below z (since x is contained in y’s vertical span and y is below z).  However, there is no information fixing x’s horizontal position relative to z.  Consequently, x can only be below z in one of three ways:
+
+• purely south of z (S),  
+• south‐west of z (SW), or  
+• south‐east of z (SE).
+For r1: W, r2: NE, answer: N, NE, or NW.
+For r1: W, r2: B, answer: W of y tells us that x’s box is completely to the left of y’s box (i.e. supₓ(x) ≤ infₓ(y)) and is “vertically contained” by y (in other words, infᵧ(y) ≤ infᵧ(x) and supᵧ(x) ≤ supᵧ(y)).  
+B of z tells us that y’s box lies entirely within z’s box (in both x and y dimensions).
+
+Putting these together, x is vertically contained in y, and y is vertically contained in z, so x is also vertically contained in z.  
+Horizontally, we only know supₓ(x) ≤ infₓ(y) and infₓ(z) ≤ infₓ(y), so supₓ(x) might be either strictly to the left of infₓ(z) (making x W of z) or else lie between infₓ(z) and supₓ(z) (allowing x to be B of z if its infₓ(x) ≥ infₓ(z)).  
+
+Hence, the only possible relations of x to z under these conditions are W or B.
+For r1: E, r2: N, answer: N, NE
+For r1: E, r2: W, answer: E of y puts x strictly to the right of y (with x’s box within y’s vertical bounds), and W of z puts y strictly to the left of z (with y’s box within z’s vertical bounds).  Altogether this forces x to lie within the vertical extent of z but does not fix whether x is to the left of z, to the right of z, or wholly inside z’s bounding box horizontally.  Consequently, x can only be  
+• E of z,  
+• W of z, or  
+• B of z  
+
+(and no other single‐tile relation).
+For r1: E, r2: E, answer: E.
+For r1: E, r2: S, answer: Satisfying “x is E of y” forces x’s bounding box to lie entirely to the right of y’s (supx(y) ≤ infx(x)) but vertically within y’s bounding box. Meanwhile, “y is S of z” forces y’s bounding box entirely below z’s (supy(y) ≤ infy(z)) but horizontally within z’s. Putting these together shows that x must also lie strictly below z (since supy(x) ≤ supy(y) ≤ infy(z)).
+
+What remains undetermined is whether x fits horizontally inside z’s bounding box or sits entirely to the right of it. If infx(z) ≤ infx(x) and supx(x) ≤ supx(z), then x is “S” of z. If instead supx(z) ≤ infx(x), then x is “SE” of z. Thus, the only possible relations of x to z are: S or SE.
+For r1: E, r2: NW, answer: N, NW, or NE are all possible. The key point is that from “x E y” and “y NW z,” one deduces that x lies strictly above z (since y is above z and x is within y’s vertical extent), but there is no constraint forcing x to be left, right, or horizontally contained relative to z. Thus x can be directly above z (N) or else above and to the left (NW) or above and to the right (NE).
+For r1: E, r2: SW, answer: Satisfying “x is E of y” means, in particular, that x lies (at least) strictly to the right of y in the x‐direction, and satisfying “y is SW of z” means y lies strictly below and to the left of z.  From these it follows that x itself must lie strictly below z (because y is below z and x is contained vertically within y’s bounding box).  Horizontally, however, x could be entirely to the left of z, entirely to the right of z, or “underneath” z (i.e., horizontally within z’s bounding box).  Hence the only possible relations between x and z are S, SW, or SE.
+For r1: E, r2: SE, answer: SE
+For r1: E, r2: NE, answer: NE
+For r1: E, r2: B, answer: E of y tells us that x lies strictly to the right of y but is vertically contained within y. Meanwhile, B of z tells us that y’s entire bounding box is contained in z’s bounding box. Putting these together, one sees that x can either remain fully inside z’s bounding box (so x B z) or lie entirely to the right of z (so x E z). None of the other directions can be satisfied without contradicting vertical or horizontal containment. 
+
+Hence, the possible relations between x and z are: B or E.
+For r1: S, r2: N, answer: Sitting “south” of y only tells us that x lies strictly below y (with horizontal bounding‐box overlap), and y being “north” of z tells us that z lies strictly below y (again with horizontal overlap).  From these two facts alone there is no forced vertical ordering between x and z, nor is there any forced containment one way or the other.  However, one can rule out purely “east,” “west,” or diagonal relations (SW, NW, SE, NE), because x’s bounding box is ‟inside” y’s in the horizontal direction and y’s is inside z’s—so x cannot lie strictly to one side of z.  
+
+What remains possible are:
+
+• x S z  (if x ends up entirely below z),  
+• x N z  (if x ends up entirely above z), or  
+• x B z  (if x is contained in z’s bounding box).
+
+Thus the possible single‐tile relations between x and z are {S, N, B}.
+For r1: S, r2: W, answer: W and SW are the only possibilities.  In outline:  
+• From “x S y” one has supy(x) ≤ infy(y) and infx(y) ≤ infx(x) ≤ supx(x) ≤ supx(y).  
+• From “y W z” one has supx(y) ≤ infx(z) and infy(z) ≤ infy(y) ≤ supy(y) ≤ supy(z).  
+Combining these implies supx(x) ≤ infx(z), so x is strictly to the left of z.  Vertically, x may lie fully below z (making x SW of z) or may overlap z’s y‐range (making x W of z).  No other cardinal directions satisfy those bounding‐box constraints.
+For r1: S, r2: E, answer: From the defining inequalities it follows that once x is “south” of y and y is “east” of z, x must lie strictly to the right of z (because y is to the right of z and x is horizontally contained in y) and can lie either level‐with or below z.  In terms of the nine cardinal‐direction definitions given, exactly those two possibilities can occur:
+
+• x E z  
+• x SE z  
+
+No other cardinal‐direction relation between x and z is consistent with x S y and y E z.
+For r1: S, r2: S, answer: S of z.
+For r1: S, r2: NW, answer: NW, W, or SW
+For r1: S, r2: SW, answer: SW
+For r1: S, r2: SE, answer: SE
+For r1: S, r2: NE, answer: NE, E, or SE.  
+
+Explanation (informally):  
+• From “x is S of y” and “y is NE of z,” one deduces supₓ(z) ≤ infₓ(y) ≤ infₓ(x).  
+  That places x strictly to the right of z.  
+• In the vertical dimension, however, there is no forced ordering between x and z (they could be aligned or one could be above/below the other).  
+• Hence x can only be NE, E, or SE of z.
+For r1: S, r2: B, answer: S or B.
+For r1: NW, r2: N, answer: N and NW.  In brief, x must lie strictly above z (since x is above y and y is above z), so x cannot be S, SE, SW, or B of z.  Furthermore, because x is to the left of y (x NW y) while y is horizontally inside z (y N z), x can either sit wholly to the left of z (making x NW z) or be horizontally within z’s bounds (making x N z).
+For r1: NW, r2: W, answer: W and NW.  
+
+Reasoning (in brief):  
+• From x NW y we get:  
+  – supx(x) ≤ infx(y)  (x is strictly to the left of y),  
+  – supy(y) ≤ infy(x)  (x is strictly above y).  
+
+• From y W z we get:  
+  – supx(y) ≤ infx(z)  (y is strictly to the left of z),  
+  – infy(z) ≤ infy(y) and supy(y) ≤ supy(z)  (y is vertically contained in z).  
+
+Chaining supx(x) ≤ infx(y) ≤ supx(y) ≤ infx(z) shows that x must also lie strictly to the left of z.  In the vertical dimension, x can either lie entirely within z’s vertical span (making x W of z) or lie entirely above z (making x NW of z).  No other single‐tile relations satisfy all these bounding‐box constraints.
+For r1: NW, r2: E, answer: Narrowing down all possibilities systematically shows that X cannot lie strictly below Z (which would be “S”, “SW”, or “SE”) once X is northwest of Y and Y in turn is east of Z.  However, one can construct examples realizing all of the remaining six directions (B, W, NW, N, NE, E).  Consequently, the possible single‐tile relations of X to Z are exactly:
+
+B, W, NW, N, NE, or E.
+For r1: NW, r2: S, answer: Possible relations are exactly those for which one can construct a configuration satisfying both “x NW y” and “y S z.”  A straightforward geometric check shows that x can end up NW, N, W, SW, S, or B of z, and cannot be NE, E, or SE of z. Thus the possible answers are:
+
+NW, N, W, SW, S, B.
+For r1: NW, r2: NW, answer: NW
+For r1: NW, r2: SW, answer: NW of y means x is strictly to the left of y and strictly above y (so supx(x) ≤ infx(y) and supy(y) ≤ infy(x)).  
+SW of z means y is strictly to the left of z and strictly below z (so supx(y) ≤ infx(z) and supy(y) ≤ infy(z)).  
+
+Chaining these gives supx(x) ≤ infx(y) ≤ supx(y) ≤ infx(z), so x is strictly to the left of z.  However, there is no forced vertical ordering between x and z: x could lie entirely above z, entirely below z, or be “vertically inside” z’s bounding box.  Consequently, the only consistent single‐tile relations of x to z are exactly  
+• NW (x strictly left and strictly above z),  
+• W  (x strictly left of z and vertically contained),  
+• SW (x strictly left and strictly below z).
+For r1: NW, r2: SE, answer: N, NE, E, SE, S, SW, W, NW, or B. Any of these nine is possible for x relative to z under those assumptions.
+For r1: NW, r2: NE, answer: NW, N, or NE.
+For r1: NW, r2: B, answer: N, W, NW, or B.
+For r1: SW, r2: N, answer: SW of y means x is strictly to the left and below y (i.e. supₓ(x) ≤ infₓ(y) and supᵧ(x) ≤ infᵧ(y)), while N of z means y is strictly above z (supᵧ(z) ≤ infᵧ(y), etc.).  From supₓ(x) ≤ infₓ(y) and infₓ(y) ≤ infₓ(z) it follows that
+
+supₓ(x) ≤ infₓ(z),
+
+so x must lie strictly to the left of z’s bounding box.  Depending on their relative vertical placements (which are unconstrained by x SW y and y N z alone), x can be below z, above z, or overlapped vertically (but still all to the left).  Hence the only possible relations of x to z are SW, W, or NW.
+For r1: SW, r2: W, answer: SW of y means x is strictly to the left of y (supₓ(x) ≤ infₓ(y)) and strictly below y (supᵧ(x) ≤ infᵧ(y)).  
+W of z means y is strictly to the left of z (supₓ(y) ≤ infₓ(z)) but vertically contained in z (infᵧ(z) ≤ infᵧ(y) and supᵧ(y) ≤ supᵧ(z)).
+
+Putting these together shows that x is strictly to the left of z (because supₓ(x) ≤ infₓ(y) ≤ supₓ(y) ≤ infₓ(z)).  As for the vertical dimension, x could end up entirely below z (making x SW of z) or it could fit within the vertical extent of z (making x W of z).  No other single‐tile relations remain consistent with those bounding‐box constraints.  
+
+Thus, the possible relations between x and z are: W, SW.
+For r1: SW, r2: E, answer: Satisfying “x SW y” (so x is left‐and‐below y) together with “y E z” (so y is right‐and‐within z vertically) forces x to lie somewhere to the left of y and below y, while z is to the left of y but vertically large enough to contain y.  One can check by constructing explicit bounding‐box examples that x may then be:
+
+• fully inside z (B),  
+• strictly to the left of z (W),  
+• strictly to the left‐and‐below z (SW),  
+• strictly below z (S),  
+• strictly right‐and‐below z (SE), or  
+• strictly to the right of z (E).  
+
+What cannot happen is for x to lie wholly above z (N, NE, NW), because that would contradict x’s being below y while y is itself contained (vertically) in z.  
+
+Hence the possible relations of x to z are  
+B, S, SW, W, SE, E.
+For r1: SW, r2: S, answer: Solely from the definitions, we know that  
+•  x SW y ⇒ supₓ(x) ≤ infₓ(y) and supᵧ(x) ≤ infᵧ(y),  
+•  y S z  ⇒ supᵧ(y) ≤ infᵧ(z) and infₓ(z) ≤ infₓ(y) ≤ supₓ(y) ≤ supₓ(z).  
+
+From these it follows that supᵧ(x) ≤ infᵧ(y) ≤ supᵧ(y) ≤ infᵧ(z), so x must lie entirely below z (i.e., supᵧ(x) ≤ infᵧ(z)).  However, in the x‐direction, since supₓ(x) ≤ infₓ(y) and infₓ(z) ≤ infₓ(y), x can either lie strictly to the left of z (so supₓ(x) ≤ infₓ(z)) or else be horizontally within z’s bounding box (so infₓ(z) ≤ infₓ(x) and supₓ(x) ≤ supₓ(z)).  
+
+By the cardinal‐direction definitions, those two possibilities correspond exactly to x being “SW of z” (when supₓ(x) ≤ infₓ(z) and supᵧ(x) ≤ infᵧ(z)) or “S of z” (when infₓ(z) ≤ infₓ(x) and supₓ(x) ≤ supₓ(z), with supᵧ(x) ≤ infᵧ(z)).  
+
+Hence, the possible relations between x and z are: S or SW.
+For r1: SW, r2: NW, answer: x must lie strictly to the left of z (since, chaining the two relations, one obtains supx(x) ≤ infx(y) ≤ supx(y) ≤ infx(z)).  However, no vertical ordering between x and z is forced by the given constraints.  Consequently, the only possibilities are that x is NW, W, or SW of z.
+For r1: SW, r2: SW, answer: SW.
+For r1: SW, r2: SE, answer: S, SW, and SE are all possible. Specifically, from  
+• x SW y ⇒ supx(x) ≤ infx(y) and supy(x) ≤ infy(y),  
+• y SE z ⇒ supx(z) ≤ infx(y) and supy(y) ≤ infy(z),  
+
+one deduces supy(x) ≤ infy(y) ≤ infy(z), i.e. the top of x is below the bottom of z. This rules out any relation where x and z must vertically overlap or x is above z (so W, NW, N, NE, E, B are impossible). What remains feasible, depending on how one arranges their x-coordinates, are precisely S (directly below), SW (below and to the left), or SE (below and to the right).
+For r1: SW, r2: NE, answer: N, NE, SE, S, E, NW, W, SW, B. All nine are possible. Because x and z are both only required to lie to the southwest of y, no further constraint is imposed that would rule out any particular relative positioning of x with respect to z.
+For r1: SW, r2: B, answer: From the two given constraints  
+• x SW y ⇒ supₓ(x) ≤ infₓ(y) and supᵧ(x) ≤ infᵧ(y),  
+• y B z  ⇒ infₓ(z) ≤ infₓ(y) ≤ supₓ(y) ≤ supₓ(z) and infᵧ(z) ≤ infᵧ(y) ≤ supᵧ(y) ≤ supᵧ(z),  
+
+one can show that the only ways to place x relative to z (so as not to violate those bounding‐box inequalities) are:
+
+• x B z,  
+• x S z,  
+• x W z,  
+• x SW z.  
+
+All other directions (N, NE, NW, E, SE) require x to lie above or to the right of z or both, which is incompatible with having x below‐left of y while y itself sits fully inside z. Thus the possible relations between x and z are precisely {B, S, W, SW}.
+For r1: SE, r2: N, answer: N, NE, E, SE, S, or B.
+For r1: SE, r2: W, answer: Satisfying “x SE y” forces x to lie strictly to the right and below y (i.e., supx(y) ≤ infx(x) and supy(x) ≤ infy(y)), while “y W z” forces y strictly to the left of z but vertically inside z (i.e., supx(y) ≤ infx(z), infy(z) ≤ infy(y), and supy(y) ≤ supy(z)).  From these two facts alone, one cannot pin down a single relative position of x with respect to z because x could end up anywhere “below” y (which is itself inside z vertically) and either to the left, inside, or to the right of z.  
+
+A straightforward check of each of the nine cardinal‐direction definitions shows that x cannot be above z (so N, NE, NW are impossible), but all of B, S, W, SW, E, SE can be realized by suitable choices of bounding boxes.  Hence the possible relations between x and z are:  
+
+B, S, W, SW, E, SE.
+For r1: SE, r2: E, answer: E and SE.
+For r1: SE, r2: S, answer: Sitting “SE of y” means that x lies strictly to the right and below y, and “y S of z” means that y lies strictly below z (with y horizontally within z).  Putting these together forces x also strictly below z.  Horizontally, x may lie entirely within z’s bounding box (making x “S” of z) or lie entirely to the right of z (making x “SE” of z).  Hence, the only possible relations of x to z are:  
+• S  
+• SE  
+For r1: SE, r2: NW, answer: N, NE, E, SE, S, SW, W, NW, or B are all possible. The reason is that “x SE y” and “y NW z” only place x and z both to the right and both below y but do not impose any direct constraint fixing x’s position relative to z. Consequently, x can lie in any of the nine cardinal‐direction configurations with respect to z.
+For r1: SE, r2: SW, answer: From the definitions, “x SE y” means x lies strictly to the right and below y (supx(y) ≤ infx(x) and supy(x) ≤ infy(y)), and “y SW z” means y lies strictly to the left and below z (supx(y) ≤ infx(z) and supy(y) ≤ infy(z)).  One can show by explicit “bounding‐box” constructions that under these two constraints, x can only end up:
+
+• strictly below z (possibly lined up in x, or to the left, or to the right), or  
+• wholly inside z’s bounding box.  
+
+In terms of the single‐tile relations, those possibilities correspond exactly to x being S, SW, SE, or B relative to z.  One can construct concrete examples realizing each of these four cases, and no other cardinal‐direction relations are consistent with “x SE y” and “y SW z.”  
+
+Hence the possible relations between x and z are S, SW, SE, or B.
+For r1: SE, r2: SE, answer: SE
+For r1: SE, r2: NE, answer: E, NE, or SE.
+For r1: SE, r2: B, answer: B, S, E, and SE are all consistent with those two premises; the other directions cannot occur.
+For r1: NE, r2: N, answer: N, NE
+For r1: NE, r2: W, answer: Narrowing down the possibilities amounts to checking which of the nine basic relations  
+{N, NE, E, SE, S, SW, W, NW, B}  
+can still hold between x and z when
+
+• x is NE of y (so supx(y) ≤ infx(x) and supy(y) ≤ infy(x)),  
+• y is W of z (so supx(y) ≤ infx(z) and infy(z) ≤ infy(y) ≤ supy(y) ≤ supy(z)).
+
+One sees that x cannot be south (S, SE, SW) of z, because x lies above y—which itself lies vertically within z.  However, by choosing suitable bounding‐box sizes and placements, x may be contained in z (B), may lie strictly west (W) or east (E) of z (while still above y), or may lie above z (N, NW, NE).  
+
+Hence the possible relations between x and z are exactly  
+{W, NW, N, NE, E, B}.
+For r1: NE, r2: E, answer: NE, E.
+For r1: NE, r2: S, answer: N, NE, E, SE, S, or B.
+For r1: NE, r2: NW, answer: N, NE, NW.
+For r1: NE, r2: SW, answer: N, NE, E, SE, S, SW, W, NW, and B are all consistent with “x NE y” together with “y SW z.” In other words, every one of the nine single‐tile relations between x and z can be realized without violating x NE y and y SW z.
+For r1: NE, r2: SE, answer: E, NE, or SE.
+For r1: NE, r2: NE, answer: NE
+For r1: NE, r2: B, answer: N, NE, E, or B.  
+
+Explanation (informally):  
+• From “x NE y” we know, in bounding‐box terms, that x lies strictly to the right and above y.  
+• From “y B z” we know that y’s bounding box lies entirely within z’s bounding box.  
+• Putting these together, x can still lie within z’s bounding box (which would make x B z), or else x can overshoot z in the rightward, upward, or both right‐and‐upward directions (making x E z, N z, or NE z).  
+• All other directions force contradictions once one observes that y is itself contained in z but x is strictly to the northeast of y.  
+For r1: B, r2: N, answer: N
+For r1: B, r2: W, answer: W.
+For r1: B, r2: E, answer: From the given definitions, “x B y” entails that x’s bounding box is contained inside y’s bounding box; and “y E z” entails that y lies entirely to the right of z (with vertical extents of y contained in those of z).  Chaining these gives:
+
+•  Because x B y, x’s box is inside y’s box.  
+•  Because y E z, y (hence also x) must lie to the right of z, and vertically y (and thus x) is contained in z’s vertical bounds.
+
+Concretely, one obtains  
+   supx(z) ≤ infx(y) ≤ infx(x)   and   infy(z) ≤ infy(y) ≤ infy(x),   supy(x) ≤ supy(y) ≤ supy(z).
+
+These are precisely the conditions for “x E z”:  
+   1) supx(z) ≤ infx(x),  
+   2) infy(z) ≤ infy(x) and supy(x) ≤ supy(z).
+
+No other single‐tile relation can hold under these constraints.  Hence, the only possible relation between x and z is:  
+E.
+For r1: B, r2: S, answer: S
+For r1: B, r2: NW, answer: x must lie strictly above and to the left of z.  In particular, from x B y we have  
+• infx(y) ≤ infx(x) ≤ supx(x) ≤ supx(y),  
+• infy(y) ≤ infy(x) ≤ supy(x) ≤ supy(y),  
+
+and from y NW z we have  
+• supx(y) ≤ infx(z),  
+• supy(z) ≤ infy(y).  
+
+Chain these together:
+
+• supx(x) ≤ supx(y) ≤ infx(z), so x is strictly to the left of z.  
+• supy(z) ≤ infy(y) ≤ infy(x), so x is strictly above z.  
+
+Those two conditions exactly match x NW z and rule out all other single-tile relations.  
+
+Thus, the only possible relation is NW.
+For r1: B, r2: SW, answer: From “x B y” we know that the bounding box of x is contained in that of y, i.e.  
+  infx(y) ≤ infx(x),   supx(x) ≤ supx(y),  
+  infy(y) ≤ infy(x),   supy(x) ≤ supy(y).  
+
+From “y SW z” we know that  
+  supx(y) ≤ infx(z),   supy(y) ≤ infy(z).  
+
+Together, these imply  
+  supx(x) ≤ supx(y) ≤ infx(z)   and   supy(x) ≤ supy(y) ≤ infy(z),  
+which exactly matches the defining condition  
+  supx(x) ≤ infx(z)   and   supy(x) ≤ infy(z).  
+
+Hence, x can only be SW of z.
+For r1: B, r2: SE, answer: SE
+For r1: B, r2: NE, answer: NE
+For r1: B, r2: B, answer: B is transitive in the sense that from x B y and y B z it follows that x B z as well (the chain of inequalities for bounding boxes carries over). None of the other eight relations can hold once those B‐inclusions have been assumed. Therefore, the only possible relation between x and z in this scenario is B.

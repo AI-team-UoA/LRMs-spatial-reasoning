@@ -1,0 +1,412 @@
+For r1: N, r2: N, answer: N
+For r1: N, r2: W, answer: The possible relations between region x and region z are NW and W. 
+
+**Step-by-Step Explanation:**
+
+1. **x N y** implies:
+   - x is above y (`supy(y) ≤ infy(x)`).
+   - x is horizontally within y (`infx(y) ≤ infx(x) ≤ supx(x) ≤ supx(y)`).
+
+2. **y W z** implies:
+   - y is to the left of z (`supx(y) ≤ infx(z)`).
+   - y is vertically within z (`infy(z) ≤ infy(y) ≤ supy(y) ≤ supy(z)`).
+
+3. **Combining x-axis projections**:
+   - From x N y: `supx(x) ≤ supx(y)`.
+   - From y W z: `supx(y) ≤ infx(z)`.
+   - Thus, `supx(x) ≤ infx(z)` → **x is to the left of z**.
+
+4. **Combining y-axis projections**:
+   - From x N y: `supy(y) ≤ infy(x)`.
+   - From y W z: `supy(y) ≤ supy(z)`.
+   - Hence, `infy(x) ≥ supy(y)` and `supy(y) ≤ supy(z)` → **x's y-position depends on z's bounds**.
+
+5. **Possible y-axis scenarios**:
+   - **Case 1**: If `supy(z) ≤ infy(x)` → **x is above z** → **NW** (x left and above z).
+   - **Case 2**: If `supy(z) > infy(x)` → **x overlaps vertically with z** → **W** (x left and vertically within z).
+
+6. **Excluding other directions**:
+   - **SW/S/SE/E/NE/N/B** are incompatible due to x being left of z and not below, overlapping fully, or within z.
+
+**Answer:** NW, W
+For r1: N, r2: E, answer: NE, E
+For r1: N, r2: S, answer: The possible relations between region x and region z are N, S, and B. 
+
+**N**: If x is entirely above z.  
+**S**: If x is entirely below z.  
+**B**: If x's bounding box is entirely within z's.  
+
+Answer: N, S, B
+For r1: N, r2: NW, answer: NW
+For r1: N, r2: SW, answer: W
+For r1: N, r2: SE, answer: The possible relations between region x and region z are NE, E, and SE. 
+
+**NE**: If x is east of z and entirely above it.  
+**E**: If x is east of z and vertically within z's bounds.  
+**SE**: If x is east of z and entirely below it (since x can be between y and z vertically).  
+
+Answer: NE, E, SE
+For r1: N, r2: NE, answer: NE
+For r1: N, r2: B, answer: The possible relations between x and z are N and B. 
+
+**N**: If z's bounding box does not extend above y's, x must be entirely above z.  
+**B**: If z's bounding box extends above y, x can be within z's vertical bounds while still being above y.  
+
+Answer: N, B
+For r1: W, r2: N, answer: The possible relations between x and z are N and NW. 
+
+NW occurs when x's horizontal projection is entirely to the west of z's (supx(x) ≤ infx(z)), while N occurs when x's horizontal projection is within z's bounds (infx(z) ≤ infx(x) and supx(x) ≤ supx(z)). These are the only valid single-tile relations given the constraints of x being west of y and y being north of z.
+
+**Answer:** NW, N
+For r1: W, r2: W, answer: W
+For r1: W, r2: E, answer: The possible relations between region x and z are W, E, or B. 
+
+**Step-by-Step Explanation:**
+
+1. **Given Relations:**
+   - x is W of y: 
+     - Horizontally: supx(x) ≤ infx(y)
+     - Vertically: infy(y) ≤ infy(x) ≤ supy(x) ≤ supy(y)
+   - y is E of z: 
+     - Horizontally: supx(z) ≤ infx(y)
+     - Vertically: infy(z) ≤ infy(y) ≤ supy(y) ≤ supy(z)
+
+2. **Combined Horizontal Constraints:**
+   - Both x and z lie west of y: supx(x) ≤ infx(y) and supx(z) ≤ infx(y).
+   - No direct horizontal constraint between x and z; they can be ordered as x < z, z < x, or overlap.
+
+3. **Vertical Constraints:**
+   - Vertically, x is contained within z: infy(z) ≤ infy(x) and supy(x) ≤ supy(z).
+
+4. **Possible Horizontal Scenarios:**
+   - **x W z:** If supx(x) ≤ infx(z).
+   - **x E z:** If supx(z) ≤ infx(x).
+   - **x B z:** If infx(z) ≤ infx(x) and supx(x) ≤ supx(z) (x horizontally within z).
+
+5. **Exclusion of Other Directions:**
+   - Diagonals (NW, NE, SW, SE), N, S are invalid due to vertical containment of x in z.
+
+**Answer:** B, W, E
+For r1: W, r2: S, answer: SW
+For r1: W, r2: NW, answer: NW
+For r1: W, r2: SW, answer: SW
+For r1: W, r2: SE, answer: The possible relations between region x and z are SW, S, SE.  
+**Answer:** SW, S, SE
+For r1: W, r2: NE, answer: The possible relations between region x and z are N, NW, and NE. 
+
+**N**: If x is horizontally within z's bounds and vertically above.  
+**NW**: If x is west of z and above.  
+**NE**: If x is east of z and above.  
+
+Answer: N, NW, NE
+For r1: W, r2: B, answer: The possible relation between region x and region z is **W**. 
+
+**Step-by-Step Explanation:**
+1. **x is W of y:** This implies supx(x) ≤ infx(y) and y's y-interval contains x's vertically.
+2. **y is B of z:** Thus, z's bounding box contains y's, meaning infx(z) ≤ infx(y) ≤ supx(y) ≤ supx(z) and similarly for y-axis.
+3. **Combining these:** supx(x) ≤ infx(y) ≥ infx(z). For x to relate to z via single-tile relations:
+   - Horizontally: If supx(x) ≤ infx(z), x is **W** of z.
+   - If supx(x) > infx(z), no valid single-tile relation exists (overlap isn't covered by other relations).
+4. **Vertically:** x's y-interval is within z's, but this alone doesn't justify B (requires full containment in x-axis, which fails if supx(x) > infx(z)).
+5. **Conclusion:** Only valid single-tile relation is **W** when supx(x) ≤ infx(z). Overlap cases don't fit any other relations, making **W** the sole answer. 
+
+**Answer:** W
+For r1: E, r2: N, answer: The possible relations between region x and z are N and NE. 
+
+**N**: If x's horizontal projection is within z's horizontal bounds while being vertically above.  
+**NE**: If x is entirely east of z's horizontal bounds and still vertically above.
+
+Answer: N, NE
+For r1: E, r2: W, answer: The possible relations between x and z are B and E. 
+
+**Answer:** B, E
+For r1: E, r2: E, answer: E
+For r1: E, r2: S, answer: The possible relations between region x and z are S and SE. 
+
+**S**: If x's x-projection is within z's x-projection while being entirely below z.  
+**SE**: If x is entirely to the east of z and entirely below z.  
+
+Answer: S, SE
+For r1: E, r2: NW, answer: The possible relations between region x and z are NE, N, and NW. 
+
+**NE**: If x is east and north of z.  
+**N**: If x is within z's x-bounds and north.  
+**NW**: If x is west and north of z.  
+
+Answer: NE, N, NW
+For r1: E, r2: SW, answer: The possible relations between region x and z are S and SE. 
+
+SE: If x is to the East of z (since x is already East of y, and z is Northeast of y, x could be positioned such that it's East and South of z).  
+S: If x is horizontally within z's projection but vertically below.  
+
+**Answer:** S, SE
+For r1: E, r2: SE, answer: SE
+For r1: E, r2: NE, answer: NE
+For r1: E, r2: B, answer: The possible relations between region x and z are B and E. 
+
+**Step-by-Step Explanation:**
+
+1. **Given Relations:**
+   - **x E y:** x is entirely east of y, with vertical bounds within y's.
+   - **y B z:** y's bounding box is inside z's bounding box.
+
+2. **Key Implications:**
+   - **From x E y:**  
+     - `infx(x) ≥ supx(y)` (x starts east of y's right edge).  
+     - Vertically, `infy(y) ≤ infy(x) ≤ supy(x) ≤ supy(y)` (x is within y's vertical bounds).
+   - **From y B z:**  
+     - z's bounding box contains y's:  
+       - `infx(z) ≤ infx(y) ≤ supx(y) ≤ supx(z)` (horizontally).  
+       - `infy(z) ≤ infy(y) ≤ supy(y) ≤ supy(z)` (vertically).
+
+3. **Vertical Analysis:**
+   - Since x is vertically within y and y is within z, **x is vertically within z** (`infy(z) ≤ infy(x) ≤ supy(x) ≤ supy(z)`).
+
+4. **Horizontal Analysis:**
+   - **Case 1:** If `infx(x) ≥ supx(z)` (x starts east of z's right edge), then **x E z**.  
+   - **Case 2:** If `infx(x) < supx(z)` (x starts inside z's horizontal bounds), and x’s entire bounding box is horizontally within z (`supx(x) ≤ supx(z)`), then **x B z**.  
+
+5. **Conclusion:**
+   - Depending on whether x’s horizontal bounds are fully inside or fully east of z, the possible relations are **B** (if x is inside z’s box) or **E** (if x is east of z’s box). Partial overlaps (e.g., x spans part of z’s box and extends east) are not expressible with single-tile relations under the given definitions.  
+
+**Answer:** B, E
+For r1: S, r2: N, answer: The possible relations between region x and region z are N, S, and B. 
+
+**N**: If x's vertical interval is entirely above z's.  
+**S**: If x's vertical interval is entirely below z's.  
+**B**: If x's vertical interval is within z's.  
+
+Thus, the answer is:  
+B, N, S
+For r1: S, r2: W, answer: The possible relations between region x and z are SW and W. 
+
+**SW**: If x is both south and west of z, satisfying supx(x) ≤ infx(z) and supy(x) ≤ infy(z).  
+**W**: If x is west of z with vertical inclusion (infy(z) ≤ infy(x) and supy(x) ≤ supy(z)), aligning within z's vertical bounds.  
+
+Answer: SW, W
+For r1: S, r2: E, answer: The possible relations between region x and z are SE and E. 
+
+SE: If x is entirely south and east of z.  
+E: If x is east of z and vertically within z's bounds.  
+
+**Answer:** E, SE
+For r1: S, r2: S, answer: S
+For r1: S, r2: NW, answer: The possible relations between region x and z are NW, W, and SW. 
+
+**NW**: If x is vertically above z while being to the west.  
+**W**: If x is directly west of z with overlapping vertical bounds.  
+**SW**: If x is below and west of z.  
+
+Thus, the answer is:  
+NW, W, SW  
+
+**Answer**: NW, W, SW
+For r1: S, r2: SW, answer: The possible relation between x and z is SW. 
+
+SW
+For r1: S, r2: SE, answer: The possible relation between region x and z is SE. 
+
+**Answer:** SE
+For r1: S, r2: NE, answer: The possible relations between region x and z are SE, E, and NE.
+
+**Answer:** NE, E, SE
+For r1: S, r2: B, answer: The possible relations between region x and z are S (South) and B (Bounded). 
+
+**Answer:** B, S
+For r1: NW, r2: N, answer: The possible relations between region x and z are NW and N. 
+
+NW: If x is entirely to the west and north of z.  
+N: If x is aligned within z's x-bounds and north of z.  
+
+**Answer:** N, NW
+For r1: NW, r2: W, answer: The possible relations between region x and z are NW and W. 
+
+NW, W
+For r1: NW, r2: E, answer: The possible relations between region x and region z are NW and W.
+
+NW, W
+For r1: NW, r2: S, answer: The possible relations between x and z are N, S, W, SW, NW, B.
+
+**Answer:** N, S, W, SW, NW, B
+For r1: NW, r2: NW, answer: NW
+For r1: NW, r2: SW, answer: The possible relations between x and z are NW, W, and SW. 
+
+**Step-by-Step Explanation:**
+
+1. **x NW y** implies:
+   - supx(x) ≤ infx(y) (x is west of y)
+   - supy(y) ≤ infy(x) (x is north of y)
+
+2. **y SW z** implies:
+   - supx(y) ≤ infx(z) (y is west of z)
+   - supy(y) ≤ infy(z) (y is south of z)
+
+3. **Combining x-axis:**
+   - supx(x) ≤ infx(y) ≤ supx(y) ≤ infx(z) ⇒ supx(x) ≤ infx(z) ⇒ x is west (W) of z.
+
+4. **Analyzing y-axis possibilities:**
+   - **NW:** If z’s top (supy(z)) ≤ x’s bottom (infy(x)), x is north of z ⇒ **NW**.
+   - **SW:** If x’s top (supy(x)) ≤ z’s bottom (infy(z)), x is south of z ⇒ **SW**.
+   - **W:** If z’s y-projection contains x’s y-projection (infy(z) ≤ infy(x) and supy(x) ≤ supy(z)) ⇒ **W**.
+
+5. **Excluding others:**
+   - **B, N, S, E, NE, SE** are impossible due to x being strictly west and y-axis constraints.
+
+**Answer:** NW, W, SW
+For r1: NW, r2: SE, answer: The possible relations between region x and region z are all single-tile cardinal directions. Since both x and z are positioned northwest of y, their relative positions to each other can vary freely within the northwest quadrant of y, allowing any possible arrangement. This includes all directions and containment (B).
+
+NW, N, NE, W, B, E, SW, S, SE
+For r1: NW, r2: NE, answer: The possible relations between region x and z are N and NW. 
+
+N, NW
+For r1: NW, r2: B, answer: The possible relations between region x and z are B, NW, N, and W. 
+
+**Answer:** B, NW, N, W
+For r1: SW, r2: N, answer: The possible relations between region x and z are SW, W, NW, S, N, and B. 
+
+**Answer:** SW, W, NW, S, N, B
+For r1: SW, r2: W, answer: The possible relations between region x and z are SW and W. 
+
+SW: If x's y-projection is entirely below z's, then x is SW of z.  
+W: If x's y-projection overlaps with z's but x is to the west, then x is W of z.  
+
+Answer: SW, W
+For r1: SW, r2: E, answer: The possible relations between region x and z are SW, W, S, E, SE, and B. 
+
+**SW**: If x is west and south of z.  
+**W**: If x is west of z and vertically within z's bounds.  
+**S**: If x is south of z and horizontally within z's x-bounds.  
+**E**: If x is east of z and vertically within z's bounds.  
+**SE**: If x is east and south of z.  
+**B**: If z’s bounding box contains x’s.  
+
+**Answer:** SW, W, S, E, SE, B
+For r1: SW, r2: S, answer: The possible relations between region x and z are SW and S. 
+
+**Answer:** SW, S
+For r1: SW, r2: NW, answer: The possible relations between x and z are SW, NW, and W. 
+
+SW: If x is south of z.  
+NW: If x is north of z.  
+W: If x's y-projection is within z's.  
+
+**Answer:** SW, NW, W
+For r1: SW, r2: SW, answer: SW
+For r1: SW, r2: SE, answer: The possible relations between region x and region z are SW and S. 
+
+**SW**: If x is entirely to the west and south of z.  
+**S**: If x is directly south of z with its x-projection within z's x-bounds.  
+
+Other relations are excluded due to y-axis constraints (e.g., x can’t be E or W) or x-axis overlaps not fitting any basic relation. 
+
+Answer: SW, S
+For r1: SW, r2: NE, answer: SW, W, NW, S, B, N, SE, NE, E
+For r1: SW, r2: B, answer: The possible relations between region x and region z are SW, W, S, and B. 
+
+**SW**: If z's bounding box does not extend beyond y's southwest, x remains southwest of z.  
+**W**: If z extends west past y, x can be west of z with y-projection within z's.  
+**S**: If z extends south past y, x can be south of z with x-projection within z's.  
+**B**: If z's bounding box is large enough to enclose x, x is within z's bounds.  
+
+Answer: SW, W, S, B
+For r1: SE, r2: N, answer: The possible relations between region x and region z are N, NE, E, SE, S, and B.
+
+**Answer:** NE, E, SE, S, B, N
+For r1: SE, r2: W, answer: The possible relations between region x and z are B, S, SE, E, SW, and W. 
+
+**Answer:** B, S, SE, E, SW, W.
+For r1: SE, r2: E, answer: The possible relations between region x and z are SE and E. 
+
+**SE**: If x's vertical projection is entirely below z (supy(x) ≤ infy(z)), then x is SE of z.  
+**E**: If x's vertical projection overlaps with z (supy(x) > infy(z) but x remains east of z), then x is E of z.  
+
+No other relations satisfy the bounding box constraints derived from x being SE of y and y being E of z.  
+
+Answer: SE, E
+For r1: SE, r2: S, answer: The possible relations between region x and region z are S and SE.
+
+**Answer:** S, SE
+For r1: SE, r2: NW, answer: The possible relations between region x and z are NE, E, and SE. 
+
+**NE**: If x is north and east of z.  
+**E**: If x is directly east of z with overlapping y-projections.  
+**SE**: If x is southeast of z.  
+
+Answer: NE, E, SE
+For r1: SE, r2: SW, answer: The possible relations between x and z are SW, S, SE.
+
+SW, S, SE
+For r1: SE, r2: SE, answer: SE
+For r1: SE, r2: NE, answer: The possible relations between region x and z are NE, E, and SE. 
+
+**Answer:** NE, E, SE
+For r1: SE, r2: B, answer: SE, E, S, B
+For r1: NE, r2: N, answer: The possible relations between region x and z are NE and N. 
+
+**Step-by-Step Explanation:**
+1. **Given Relations:**
+   - **x NE y:** x is entirely northeast of y, meaning `supx(y) ≤ infx(x)` and `supy(y) ≤ infy(x)`.
+   - **y N z:** y is entirely north of z, meaning `supy(z) ≤ infy(y)`, with y's x-projection within z's x-projection (`infx(z) ≤ infx(y)`, `supx(y) ≤ supx(z)`).
+
+2. **Spatial Implications:**
+   - **Vertical (y-axis):** Since `infy(x) ≥ supy(y) ≥ supy(z)`, x is north of z (`supy(z) ≤ infy(x)`).
+   - **Horizontal (x-axis):** From `supx(y) ≤ supx(z)` and `supx(y) ≤ infx(x)`, x starts east of y. Depending on whether `infx(x)` exceeds `supx(z)`:
+     - **If `infx(x) > supx(z):** x is entirely east of z, making x **NE** of z.
+     - **If `infx(x) ≤ supx(z):** x's x-projection overlaps/aligns with z's x-projection (as y's x is within z's x), making x **N** of z.
+
+3. **Conclusion:** x must be either **N** (if x's x-projection stays within z's x) or **NE** (if x extends east beyond z's x). Other relations are invalid due to constraints on y-axis alignment and bounding box overlaps.
+
+**Answer:** NE, N
+For r1: NE, r2: W, answer: The possible relations between region x and z are N, NE, E, W, NW, and B. 
+
+**Answer:** N, NE, E, W, NW, B
+For r1: NE, r2: E, answer: The possible relations between region x and z are NE and E. 
+
+NE: If x's bounding box is entirely northeast of z's, which can occur if y is positioned such that x's y-interval starts above z's maximum y.  
+E: If x's y-interval remains within z's y-bounds while being east of z.  
+
+**Answer:** NE, E
+For r1: NE, r2: S, answer: The possible relations between region x and z are N, NE, E, SE, S, B.
+
+**Answer:** B, N, NE, E, SE, S
+For r1: NE, r2: NW, answer: The possible relations between region x and region z are N, NE, and NW. 
+
+**Step-by-Step Explanation:**
+1. **x NE y**: x is northeast of y, so x is entirely right and above y.
+2. **y NW z**: y is northwest of z, so z is entirely right and below y.
+3. **Combining Positions**:
+   - **N (North)**: If x's x-projection is within z's x-projection while x is above z.
+   - **NE (Northeast)**: If x is entirely right of z (x's x starts after z's x ends) while above z.
+   - **NW (Northwest)**: If x is entirely left of z (x's x ends before z's x starts) while above z.
+
+**Answer:** N, NE, NW
+For r1: NE, r2: SW, answer: The possible relations between region x and z are all single-tile cardinal directions. 
+
+**Answer:** B, N, NE, E, SE, S, SW, W, NW.
+For r1: NE, r2: SE, answer: The possible relations between region x and region z are **E** and **NE**. 
+
+**E**: If x is vertically within z's bounds while being to the east.  
+**NE**: If x is entirely above z's vertical bounds while being to the east.  
+
+Answer: NE, E
+For r1: NE, r2: NE, answer: NE
+For r1: NE, r2: B, answer: The possible relations between x and z are B, N, E, NE.
+
+**Answer:** B, N, E, NE
+For r1: B, r2: N, answer: N
+For r1: B, r2: W, answer: W
+For r1: B, r2: E, answer: The possible relations between region x and region z are B and E. 
+
+**Answer:** B, E
+For r1: B, r2: S, answer: S
+For r1: B, r2: NW, answer: The possible relations between region x and region z are B (if z's bounding box is entirely within x's) and W (if z's bounding box is east of x's). 
+
+**Answer:** B, W
+For r1: B, r2: SW, answer: SW
+For r1: B, r2: SE, answer: The possible relations between region x and region z are B and SE.
+
+**Answer:** B, SE
+For r1: B, r2: NE, answer: The possible relations between region x and region z are B and NE.
+
+**Answer:** B, NE
+For r1: B, r2: B, answer: B
